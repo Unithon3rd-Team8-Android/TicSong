@@ -38,7 +38,7 @@ public class RegisterController {
         return registerController;
     }
 
-    public boolean register(final AppCompatActivity activity, String userId, String name) {
+    public boolean register(final AppCompatActivity activity, String userId, String name, String platform) {
         /*
         원래코드
 
@@ -51,7 +51,7 @@ public class RegisterController {
         RegisterInterface registerInterface = retrofit.create(RegisterInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<UserDTO> call = registerInterface.register(userId, name);
+        Call<UserDTO> call = registerInterface.register(userId, name, platform);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
@@ -71,8 +71,8 @@ public class RegisterController {
                 if(userDTO.getResultCode().equals("0")) {
 
                     // 이미 가입한 회원.
-                    LoginController loginController = LoginController.getInstance();
-                    loginController.requestLogin(activity, "123123", "Daesub");
+                    //LoginController loginController = LoginController.getInstance();
+                    //loginController.requestLogin(activity, "123123", "Daesub");
 
                     return;
                 }
@@ -81,6 +81,7 @@ public class RegisterController {
 
                 customPreference.put("userId",userDTO.getUserId());
                 customPreference.put("name",userDTO.getName());
+                customPreference.put("platform",userDTO.getPlatform());
                 customPreference.put("Register",true);
                 Log.e("Register","true");
                 /*new Thread(new Runnable() {

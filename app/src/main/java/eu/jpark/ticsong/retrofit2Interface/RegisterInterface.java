@@ -13,6 +13,7 @@ public interface RegisterInterface {
     @POST("register.do")
     Call<UserDTO> register(
             @Field("userId") String userId,
-            @Field("name") String name
+            @Field("name") String name,
+            @Field("platform") String platform
     );
 }

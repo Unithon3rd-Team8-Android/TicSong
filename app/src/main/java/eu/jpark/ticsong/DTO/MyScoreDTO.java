@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class MyScoreDTO implements Serializable{
 
+
+    private String resultCode;
     private String userId;
     private int exp;
     private int userLevel;
@@ -12,10 +14,19 @@ public class MyScoreDTO implements Serializable{
     public MyScoreDTO() {
     }
 
-    public MyScoreDTO(int exp, String userId, int userLevel) {
+    public MyScoreDTO(int exp, String userId, int userLevel, String resultCode) {
         this.exp = exp;
         this.userId = userId;
         this.userLevel = userLevel;
+        this.resultCode=resultCode;
+    }
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
     }
 
     public int getExp() {
@@ -47,6 +58,7 @@ public class MyScoreDTO implements Serializable{
     public String toString() {
         return "MyScoreDTO{" +
                 "exp=" + exp +
+                ", resultCode='" + resultCode + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userLevel=" + userLevel +
                 '}';

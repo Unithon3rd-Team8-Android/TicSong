@@ -47,7 +47,7 @@ public class LoginController {
     }
 
 
-    public boolean requestLogin(final AppCompatActivity activity,String userId,String name) {
+    public boolean requestLogin(final AppCompatActivity activity,String userId,String name,String platform) {
         /*
         원래코드
 
@@ -60,7 +60,7 @@ public class LoginController {
         LoginInterface loginInterface = retrofit.create(LoginInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<UserDTO> call = loginInterface.requestLogin(userId, name);
+        Call<UserDTO> call = loginInterface.requestLogin(userId, name,platform);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
@@ -83,6 +83,7 @@ public class LoginController {
 
                 customPreference.put("userId",userDTO.getUserId());
                 customPreference.put("name",userDTO.getName());
+                customPreference.put("platform",userDTO.getPlatform());
                 customPreference.put("login",true);
                 Log.e("login_login","true");
                 new Thread(new Runnable() {

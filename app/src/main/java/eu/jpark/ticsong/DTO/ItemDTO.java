@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class ItemDTO implements Serializable {
 
-
+    private String resultCode;
     private String userId;
     private int item1Cnt;
     private int item2Cnt;
@@ -17,12 +17,21 @@ public class ItemDTO implements Serializable {
     public ItemDTO() {
     }
 
-    public ItemDTO(int item1Cnt, int item2Cnt, int item3Cnt, int item4Cnt, String userId) {
+    public ItemDTO(int item1Cnt, int item2Cnt, int item3Cnt, int item4Cnt, String userId, String resultCode) {
         this.item1Cnt = item1Cnt;
         this.item2Cnt = item2Cnt;
         this.item3Cnt = item3Cnt;
         this.item4Cnt = item4Cnt;
         this.userId = userId;
+        this.resultCode=resultCode;
+    }
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
     }
 
     public int getItem1Cnt() {
@@ -70,6 +79,7 @@ public class ItemDTO implements Serializable {
     public String toString() {
         return "ItemDTO{" +
                 "item1Cnt=" + item1Cnt +
+                ", resultCode='" + resultCode + '\'' +
                 ", userId='" + userId + '\'' +
                 ", item2Cnt=" + item2Cnt +
                 ", item3Cnt=" + item3Cnt +

@@ -11,6 +11,7 @@ public interface LoginInterface {
     @POST("login.do")
     Call<UserDTO> requestLogin(
             @Field("userId") String userId,
-            @Field("name") String name
+            @Field("name") String name,
+            @Field("platform") String platform
     );
 }

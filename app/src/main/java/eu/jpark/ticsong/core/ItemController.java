@@ -1,17 +1,14 @@
 package eu.jpark.ticsong.core;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import eu.jpark.ticsong.DTO.ScoreDTO;
-import eu.jpark.ticsong.DTO.UserDTO;
-import eu.jpark.ticsong.MainActivity;
+import eu.jpark.ticsong.DTO.ItemDTO;
+
 import eu.jpark.ticsong.StaticInfo;
 import eu.jpark.ticsong.model.CustomPreference;
-import eu.jpark.ticsong.retrofit2Interface.LoginInterface;
-import eu.jpark.ticsong.retrofit2Interface.RegisterInterface;
-import eu.jpark.ticsong.retrofit2Interface.ScoreInterface;
+import eu.jpark.ticsong.retrofit2Interface.ItemInterface;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,9 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Daesub Kim on 2016-07-31.
  */
-public class ScoreController {
+public class ItemController {
 
-    private static ScoreController scoreController;
+    private static ItemController myPageController;
 
     private Retrofit retrofit = null;
     /**a
@@ -34,17 +31,17 @@ public class ScoreController {
     public boolean getIsSuccess(){return this.isSuccess;}
 
     static {
-        scoreController = new ScoreController();
+        myPageController = new ItemController();
     }
 
-    public static ScoreController getInstance() {
-        if(scoreController==null)
-            scoreController= new ScoreController();
-        return scoreController;
+    public static ItemController getInstance() {
+        if(myPageController==null)
+            myPageController= new ItemController();
+        return myPageController;
     }
 
 
-    public boolean getScore(final AppCompatActivity activity, String userId) {
+    public boolean getItem(final AppCompatActivity activity, String userId) {
         /*
         원래코드
 
@@ -54,18 +51,18 @@ public class ScoreController {
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         /*요청보낼 interface 객체 생성.*/
-        ScoreInterface scoreInterface = retrofit.create(ScoreInterface.class);
+        ItemInterface itemInterface = retrofit.create(ItemInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<ScoreDTO> call = scoreInterface.getScore("get", userId);
+        Call<ItemDTO> call = itemInterface.getItem("get", userId);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
         * 그렇기 때문에 값싼 clone()메소드를 호출하여 복사하고,
         * 복사한 Call객체로 요청큐에 넣는다. */
-        call.clone().enqueue(new Callback<ScoreDTO>() {
+        call.clone().enqueue(new Callback<ItemDTO>() {
             @Override
-            public void onResponse(Call<ScoreDTO> call, Response<ScoreDTO> response) {
+            public void onResponse(Call<ItemDTO> call, Response<ItemDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
                     Log.d("로그인 코드_",response.body().getResultCode()+"");
@@ -73,19 +70,22 @@ public class ScoreController {
                 }
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
-                ScoreDTO scoreDTO = response.body();
-                if(scoreDTO.getResultCode().equals("0")) {
-                    Log.e("Score Get 실패 ", response.code() + "");
+                ItemDTO itemDTO = response.body();
+                if(itemDTO.getResultCode().equals("0")) {
+                    Log.e("Item Get 실패 ", response.code() + "");
                     return;
                 }
 
-                Log.e("Score Get 성공 ", scoreDTO.getResultCode() + "");
+                Log.e("Item Get 성공 ", itemDTO.getResultCode() + "");
+
 
                 CustomPreference customPreference = CustomPreference.getInstance(activity);
 
-                customPreference.put("userId",scoreDTO.getUserId());
-                customPreference.put("score",scoreDTO.getScore());
-                customPreference.put("userLevel",scoreDTO.getUserId());
+                customPreference.put("userId",itemDTO.getUserId());
+                customPreference.put("item1Cnt",itemDTO.getItem1Cnt());
+                customPreference.put("item2Cnt",itemDTO.getItem2Cnt());
+                customPreference.put("item3Cnt",itemDTO.getItem3Cnt());
+                customPreference.put("item4Cnt",itemDTO.getItem4Cnt());
 
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
@@ -108,7 +108,7 @@ public class ScoreController {
             }
 
             @Override
-            public void onFailure(Call<ScoreDTO> call, Throwable t) {
+            public void onFailure(Call<ItemDTO> call, Throwable t) {
                 isSuccess = false;
                 Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
                 Log.d("로그인_왜실패?",t.toString());
@@ -118,7 +118,7 @@ public class ScoreController {
     }
 
 
-    public boolean insertScore(final AppCompatActivity activity, String userId, String score, String userLevel) {
+    public boolean insertItem(final AppCompatActivity activity, String userId, int item1Cnt, int item2Cnt, int item3Cnt,int item4Cnt) {
         /*
         원래코드
 
@@ -128,18 +128,18 @@ public class ScoreController {
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         /*요청보낼 interface 객체 생성.*/
-        ScoreInterface scoreInterface = retrofit.create(ScoreInterface.class);
+        ItemInterface itemInterface = retrofit.create(ItemInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<ScoreDTO> call = scoreInterface.insertScore("insert", userId, score, userLevel);
+        Call<ItemDTO> call = itemInterface.insertItem("insert", userId, item1Cnt,item2Cnt,item3Cnt,item4Cnt);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
         * 그렇기 때문에 값싼 clone()메소드를 호출하여 복사하고,
         * 복사한 Call객체로 요청큐에 넣는다. */
-        call.clone().enqueue(new Callback<ScoreDTO>() {
+        call.clone().enqueue(new Callback<ItemDTO>() {
             @Override
-            public void onResponse(Call<ScoreDTO> call, Response<ScoreDTO> response) {
+            public void onResponse(Call<ItemDTO> call, Response<ItemDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
                     Log.d("로그인 코드_",response.body().getResultCode()+"");
@@ -147,8 +147,8 @@ public class ScoreController {
                 }
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
-                ScoreDTO scoreDTO = response.body();
-                if(scoreDTO.getResultCode().equals("0")) {
+                ItemDTO itemDTO = response.body();
+                if(itemDTO.getResultCode().equals("0")) {
 
                     // 이미 가입한 회원.
                     /*LoginController loginController = LoginController.getInstance();
@@ -157,7 +157,7 @@ public class ScoreController {
                     return;
                 }
 
-                Log.e("Score Insert 성공 ", scoreDTO.getResultCode() + "");
+                Log.e("ItemDTO Insert 성공 ", itemDTO.getResultCode() + "");
 
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
@@ -180,7 +180,7 @@ public class ScoreController {
             }
 
             @Override
-            public void onFailure(Call<ScoreDTO> call, Throwable t) {
+            public void onFailure(Call<ItemDTO> call, Throwable t) {
                 isSuccess = false;
                 Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
                 Log.d("로그인_왜실패?",t.toString());
@@ -190,7 +190,7 @@ public class ScoreController {
     }
 
 
-    public boolean updateScore(final AppCompatActivity activity, String userId, String score, String userLevel) {
+    public boolean updateItem(final AppCompatActivity activity, String userId, int item1Cnt, int item2Cnt, int item3Cnt,int item4Cnt) {
         /*
         원래코드
 
@@ -200,18 +200,18 @@ public class ScoreController {
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         /*요청보낼 interface 객체 생성.*/
-        ScoreInterface scoreInterface = retrofit.create(ScoreInterface.class);
+        ItemInterface itemInterface = retrofit.create(ItemInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<ScoreDTO> call = scoreInterface.updateScore("update", userId, score, userLevel);
+        Call<ItemDTO> call = itemInterface.updateItem("update", userId, item1Cnt,item2Cnt,item3Cnt,item4Cnt);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
         * 그렇기 때문에 값싼 clone()메소드를 호출하여 복사하고,
         * 복사한 Call객체로 요청큐에 넣는다. */
-        call.clone().enqueue(new Callback<ScoreDTO>() {
+        call.clone().enqueue(new Callback<ItemDTO>() {
             @Override
-            public void onResponse(Call<ScoreDTO> call, Response<ScoreDTO> response) {
+            public void onResponse(Call<ItemDTO> call, Response<ItemDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
                     Log.d("로그인 코드_",response.body().getResultCode()+"");
@@ -219,15 +219,15 @@ public class ScoreController {
                 }
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
-                ScoreDTO scoreDTO = response.body();
-                if(scoreDTO.getResultCode().equals("0")) {
+                ItemDTO itemDTO = response.body();
+                if(itemDTO.getResultCode().equals("0")) {
 
 
 
                     return;
                 }
 
-                Log.e("Score Update 성공 ", scoreDTO.getResultCode() + "");
+                Log.e("ItemDTO Update 성공 ", itemDTO.getResultCode() + "");
 
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
@@ -250,7 +250,7 @@ public class ScoreController {
             }
 
             @Override
-            public void onFailure(Call<ScoreDTO> call, Throwable t) {
+            public void onFailure(Call<ItemDTO> call, Throwable t) {
                 isSuccess = false;
                 Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
                 Log.d("로그인_왜실패?",t.toString());
@@ -258,7 +258,6 @@ public class ScoreController {
         });
         return isSuccess;
     }
-
 
 
 }

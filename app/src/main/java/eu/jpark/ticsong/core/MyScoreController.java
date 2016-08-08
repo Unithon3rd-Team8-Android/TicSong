@@ -3,11 +3,12 @@ package eu.jpark.ticsong.core;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import eu.jpark.ticsong.DTO.MyPageDTO;
-import eu.jpark.ticsong.DTO.ScoreDTO;
+import eu.jpark.ticsong.DTO.MyScoreDTO;
+
 import eu.jpark.ticsong.StaticInfo;
 import eu.jpark.ticsong.model.CustomPreference;
-import eu.jpark.ticsong.retrofit2Interface.MyPageInterface;
+import eu.jpark.ticsong.retrofit2Interface.MyScoreInterface;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,9 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Daesub Kim on 2016-07-31.
  */
-public class MyPageController {
+public class MyScoreController {
 
-    private static MyPageController myPageController;
+    private static MyScoreController myScoreController;
 
     private Retrofit retrofit = null;
     /**a
@@ -30,17 +31,17 @@ public class MyPageController {
     public boolean getIsSuccess(){return this.isSuccess;}
 
     static {
-        myPageController = new MyPageController();
+        myScoreController = new MyScoreController();
     }
 
-    public static MyPageController getInstance() {
-        if(myPageController==null)
-            myPageController= new MyPageController();
-        return myPageController;
+    public static MyScoreController getInstance() {
+        if(myScoreController==null)
+            myScoreController= new MyScoreController();
+        return myScoreController;
     }
 
 
-    public boolean getMyPage(final AppCompatActivity activity, String userId) {
+    public boolean getMyScore(final AppCompatActivity activity, String userId) {
         /*
         원래코드
 
@@ -50,18 +51,18 @@ public class MyPageController {
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         /*요청보낼 interface 객체 생성.*/
-        MyPageInterface myPageInterface = retrofit.create(MyPageInterface.class);
+        MyScoreInterface myScoreInterface = retrofit.create(MyScoreInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<MyPageDTO> call = myPageInterface.getMyPage("get", userId);
+        Call<MyScoreDTO> call = myScoreInterface.getMyScore("get", userId);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
         * 그렇기 때문에 값싼 clone()메소드를 호출하여 복사하고,
         * 복사한 Call객체로 요청큐에 넣는다. */
-        call.clone().enqueue(new Callback<MyPageDTO>() {
+        call.clone().enqueue(new Callback<MyScoreDTO>() {
             @Override
-            public void onResponse(Call<MyPageDTO> call, Response<MyPageDTO> response) {
+            public void onResponse(Call<MyScoreDTO> call, Response<MyScoreDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
                     Log.d("로그인 코드_",response.body().getResultCode()+"");
@@ -69,20 +70,19 @@ public class MyPageController {
                 }
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
-                MyPageDTO myPageDTO = response.body();
-                if(myPageDTO.getResultCode().equals("0")) {
-                    Log.e("MyPage Get 실패 ", response.code() + "");
+                MyScoreDTO myScoreDTO = response.body();
+                if(myScoreDTO.getResultCode().equals("0")) {
+                    Log.e("Score Get 실패 ", response.code() + "");
                     return;
                 }
 
-                Log.e("MyPage Get 성공 ", myPageDTO.getResultCode() + "");
-
+                Log.e("MyScore Get 성공 ", myScoreDTO.getResultCode() + "");
 
                 CustomPreference customPreference = CustomPreference.getInstance(activity);
 
-                customPreference.put("userId",myPageDTO.getUserId());
-                customPreference.put("color",myPageDTO.getColor());
-                customPreference.put("acc",myPageDTO.getAcc());
+                customPreference.put("userId",myScoreDTO.getUserId());
+                customPreference.put("exp",myScoreDTO.getExp());
+                customPreference.put("userLevel",myScoreDTO.getUserLevel());
 
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
@@ -105,7 +105,7 @@ public class MyPageController {
             }
 
             @Override
-            public void onFailure(Call<MyPageDTO> call, Throwable t) {
+            public void onFailure(Call<MyScoreDTO> call, Throwable t) {
                 isSuccess = false;
                 Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
                 Log.d("로그인_왜실패?",t.toString());
@@ -115,7 +115,7 @@ public class MyPageController {
     }
 
 
-    public boolean insertScore(final AppCompatActivity activity, String userId, String color, String app) {
+    public boolean insertMyScore(final AppCompatActivity activity, String userId, int exp, int userLevel) {
         /*
         원래코드
 
@@ -125,18 +125,18 @@ public class MyPageController {
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         /*요청보낼 interface 객체 생성.*/
-        MyPageInterface myPageInterface = retrofit.create(MyPageInterface.class);
+        MyScoreInterface myScoreInterface = retrofit.create(MyScoreInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<MyPageDTO> call = myPageInterface.insertMyPage("insert", userId, color, app);
+        Call<MyScoreDTO> call = myScoreInterface.insertMyScore("insert", userId, exp, userLevel);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
         * 그렇기 때문에 값싼 clone()메소드를 호출하여 복사하고,
         * 복사한 Call객체로 요청큐에 넣는다. */
-        call.clone().enqueue(new Callback<MyPageDTO>() {
+        call.clone().enqueue(new Callback<MyScoreDTO>() {
             @Override
-            public void onResponse(Call<MyPageDTO> call, Response<MyPageDTO> response) {
+            public void onResponse(Call<MyScoreDTO> call, Response<MyScoreDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
                     Log.d("로그인 코드_",response.body().getResultCode()+"");
@@ -144,8 +144,8 @@ public class MyPageController {
                 }
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
-                MyPageDTO myPageDTO = response.body();
-                if(myPageDTO.getResultCode().equals("0")) {
+                MyScoreDTO myScoreDTO = response.body();
+                if(myScoreDTO.getResultCode().equals("0")) {
 
                     // 이미 가입한 회원.
                     /*LoginController loginController = LoginController.getInstance();
@@ -154,7 +154,7 @@ public class MyPageController {
                     return;
                 }
 
-                Log.e("MyPageDTO Insert 성공 ", myPageDTO.getResultCode() + "");
+                Log.e("MyScore Insert 성공 ", myScoreDTO.getResultCode() + "");
 
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
@@ -177,7 +177,7 @@ public class MyPageController {
             }
 
             @Override
-            public void onFailure(Call<MyPageDTO> call, Throwable t) {
+            public void onFailure(Call<MyScoreDTO> call, Throwable t) {
                 isSuccess = false;
                 Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
                 Log.d("로그인_왜실패?",t.toString());
@@ -187,7 +187,7 @@ public class MyPageController {
     }
 
 
-    public boolean updateScore(final AppCompatActivity activity, String userId, String color, String acc) {
+    public boolean updateMyScore(final AppCompatActivity activity, String userId, int score, int userLevel) {
         /*
         원래코드
 
@@ -197,18 +197,18 @@ public class MyPageController {
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         /*요청보낼 interface 객체 생성.*/
-        MyPageInterface myPageInterface = retrofit.create(MyPageInterface.class);
+        MyScoreInterface myScoreInterface = retrofit.create(MyScoreInterface.class);
 
         /*서버로 요청을 보낼 객체생성.*/
-        Call<MyPageDTO> call = myPageInterface.updateColor("update", userId, color, acc);
+        Call<MyScoreDTO> call = myScoreInterface.updateMyScore("update", userId, score, userLevel);
 
         /*Call은 동기화 클래스이다.
         * 한번 요청을 보낸 다음, 재 요청을 보낼 경우 에러가 발생한다.
         * 그렇기 때문에 값싼 clone()메소드를 호출하여 복사하고,
         * 복사한 Call객체로 요청큐에 넣는다. */
-        call.clone().enqueue(new Callback<MyPageDTO>() {
+        call.clone().enqueue(new Callback<MyScoreDTO>() {
             @Override
-            public void onResponse(Call<MyPageDTO> call, Response<MyPageDTO> response) {
+            public void onResponse(Call<MyScoreDTO> call, Response<MyScoreDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
                     Log.d("로그인 코드_",response.body().getResultCode()+"");
@@ -216,15 +216,15 @@ public class MyPageController {
                 }
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
-                MyPageDTO myPageDTO = response.body();
-                if(myPageDTO.getResultCode().equals("0")) {
+                MyScoreDTO myScoreDTO = response.body();
+                if(myScoreDTO.getResultCode().equals("0")) {
 
 
 
                     return;
                 }
 
-                Log.e("MyPageDTO Update 성공 ", myPageDTO.getResultCode() + "");
+                Log.e("MyScore Update 성공 ", myScoreDTO.getResultCode() + "");
 
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
@@ -247,7 +247,7 @@ public class MyPageController {
             }
 
             @Override
-            public void onFailure(Call<MyPageDTO> call, Throwable t) {
+            public void onFailure(Call<MyScoreDTO> call, Throwable t) {
                 isSuccess = false;
                 Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
                 Log.d("로그인_왜실패?",t.toString());
@@ -255,6 +255,7 @@ public class MyPageController {
         });
         return isSuccess;
     }
+
 
 
 }

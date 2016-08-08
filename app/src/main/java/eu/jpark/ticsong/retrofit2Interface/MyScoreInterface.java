@@ -1,38 +1,40 @@
 package eu.jpark.ticsong.retrofit2Interface;
 
-import eu.jpark.ticsong.DTO.ScoreDTO;
+import eu.jpark.ticsong.DTO.MyScoreDTO;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+
 /**
  * Created by Daesub Kim on 2016-07-31.
  */
-public interface ScoreInterface {
+public interface MyScoreInterface {
 
     @FormUrlEncoded
-    @POST("score.do")
-    Call<ScoreDTO> getScore(
+    @POST("myScore.do")
+    Call<MyScoreDTO> getMyScore(
             @Field("service") String service,
             @Field("userId") String userId
     );
 
     @FormUrlEncoded
-    @POST("score.do")
-    Call<ScoreDTO> insertScore(
+    @POST("myScore.do")
+    Call<MyScoreDTO> insertMyScore(
             @Field("service") String service,
             @Field("userId") String userId,
-            @Field("score") String score,
-            @Field("userLevel") String userLevel
+            @Field("exp") int exp,
+            @Field("userLevel") int userLevel
     );
 
     @FormUrlEncoded
-    @POST("score.do")
-    Call<ScoreDTO> updateScore(
+    @POST("myScore.do")
+    Call<MyScoreDTO> updateMyScore(
             @Field("service") String service,
             @Field("userId") String userId,
-            @Field("score") String score,
-            @Field("userLevel") String userLevel
+            @Field("exp") int exp,
+            @Field("userLevel") int userLevel
     );
 
 }
