@@ -84,6 +84,9 @@ public class MyScoreController {
                 customPreference.put("exp",myScoreDTO.getExp());
                 customPreference.put("userLevel",myScoreDTO.getUserLevel());
 
+                /*Log.e("login User ID", customPreference.getValue("userId", myScoreDTO.getUserId()));
+                Log.e("User exp", customPreference.getValue("Exp", ""+myScoreDTO.getExp()));
+                Log.e("User userLevel", customPreference.getValue("UserLevel", ""+myScoreDTO.getUserLevel()));*/
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
 
@@ -139,17 +142,15 @@ public class MyScoreController {
             public void onResponse(Call<MyScoreDTO> call, Response<MyScoreDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
-                    Log.d("로그인 코드_",response.body().getResultCode()+"");
+                    Log.d("MyScore Insert 코드_",response.body().getResultCode()+"");
                     return ; // 아무 코드를 실행하지 않고 리턴.
                 }
-                Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
+                Log.d("MyScore Insert 성공 -", response.code() + ""); // 디버깅용
 
                 MyScoreDTO myScoreDTO = response.body();
                 if(myScoreDTO.getResultCode().equals("0")) {
 
-                    // 이미 가입한 회원.
-                    /*LoginController loginController = LoginController.getInstance();
-                    loginController.requestLogin(activity, "123123", "Daesub");*/
+                    /* 존재하지 않는 아이디 */
 
                     return;
                 }
@@ -179,8 +180,8 @@ public class MyScoreController {
             @Override
             public void onFailure(Call<MyScoreDTO> call, Throwable t) {
                 isSuccess = false;
-                Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
-                Log.d("로그인_왜실패?",t.toString());
+                Log.d("MyScore Insert_실패코드-",call.toString()+"__"+t.getMessage());
+                Log.d("MyScore Insert_왜실패?",t.toString());
             }
         });
         return isSuccess;
@@ -211,10 +212,10 @@ public class MyScoreController {
             public void onResponse(Call<MyScoreDTO> call, Response<MyScoreDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
-                    Log.d("로그인 코드_",response.body().getResultCode()+"");
+                    Log.d("MyScore Update 코드_",response.body().getResultCode()+"");
                     return ; // 아무 코드를 실행하지 않고 리턴.
                 }
-                Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
+                Log.d("MyScore Update_성공코드 -", response.code() + ""); // 디버깅용
 
                 MyScoreDTO myScoreDTO = response.body();
                 if(myScoreDTO.getResultCode().equals("0")) {
@@ -249,8 +250,8 @@ public class MyScoreController {
             @Override
             public void onFailure(Call<MyScoreDTO> call, Throwable t) {
                 isSuccess = false;
-                Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
-                Log.d("로그인_왜실패?",t.toString());
+                Log.d("MyScore Update_실패코드-",call.toString()+"__"+t.getMessage());
+                Log.d("MyScore Update_왜실패?",t.toString());
             }
         });
         return isSuccess;

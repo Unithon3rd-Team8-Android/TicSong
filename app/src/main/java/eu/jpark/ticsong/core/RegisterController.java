@@ -47,6 +47,7 @@ public class RegisterController {
         //retrofit = RetrofitCreator.getRetrofit(LOGIN_URL);
         retrofit = new Retrofit.Builder().baseUrl(StaticInfo.TICSONG_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
+
         /*요청보낼 interface 객체 생성.*/
         RegisterInterface registerInterface = retrofit.create(RegisterInterface.class);
 
@@ -83,7 +84,13 @@ public class RegisterController {
                 customPreference.put("name",userDTO.getName());
                 customPreference.put("platform",userDTO.getPlatform());
                 customPreference.put("Register",true);
+
                 Log.e("Register","true");
+
+               /* Log.e("Register User ID", customPreference.getValue("userId", userDTO.getUserId()));
+                Log.e("Register Name", customPreference.getValue("name", userDTO.getName()));
+                Log.e("Register Platform", ""+customPreference.getValue("platform", userDTO.getPlatform()));*/
+
                 /*new Thread(new Runnable() {
                     @Override
                     public void run() {

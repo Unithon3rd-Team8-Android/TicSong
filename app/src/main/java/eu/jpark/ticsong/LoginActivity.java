@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void login(String userId, String name) {
         LoginController loginController = LoginController.getInstance();
         //loginController.requestLogin(this, userId, name);
-        loginController.requestLogin(this, "123123", "Daesub");
+        //loginController.requestLogin(this, "123123", "Daesub");
     }
 
     private void register(String userId, String name) {
@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.e("Name !!!!!! ", name);
 
         RegisterController registerController = RegisterController.getInstance();
-        registerController.register(this, userId, name);
+        //registerController.register(this, userId, name);
     }
 
 

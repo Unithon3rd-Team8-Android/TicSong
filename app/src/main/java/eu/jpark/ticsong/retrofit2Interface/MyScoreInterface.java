@@ -13,14 +13,14 @@ import retrofit2.http.POST;
 public interface MyScoreInterface {
 
     @FormUrlEncoded
-    @POST("myScore.do")
+    @POST("myscore.do")
     Call<MyScoreDTO> getMyScore(
             @Field("service") String service,
             @Field("userId") String userId
     );
 
     @FormUrlEncoded
-    @POST("myScore.do")
+    @POST("myscore.do")
     Call<MyScoreDTO> insertMyScore(
             @Field("service") String service,
             @Field("userId") String userId,
@@ -29,12 +29,19 @@ public interface MyScoreInterface {
     );
 
     @FormUrlEncoded
-    @POST("myScore.do")
+    @POST("myscore.do")
     Call<MyScoreDTO> updateMyScore(
             @Field("service") String service,
             @Field("userId") String userId,
             @Field("exp") int exp,
             @Field("userLevel") int userLevel
+    );
+
+    @FormUrlEncoded
+    @POST("myscore.do")
+    Call<MyScoreDTO> retrieveMyScore(
+            @Field("service") String service,
+            @Field("userId") String userId
     );
 
 }

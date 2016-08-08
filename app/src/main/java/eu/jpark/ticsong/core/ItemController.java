@@ -65,10 +65,10 @@ public class ItemController {
             public void onResponse(Call<ItemDTO> call, Response<ItemDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
-                    Log.d("로그인 코드_",response.body().getResultCode()+"");
+                    Log.d("Get Item 코드_",response.body().getResultCode()+"");
                     return ; // 아무 코드를 실행하지 않고 리턴.
                 }
-                Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
+                Log.d("Get Item_성공코드 -", response.code() + ""); // 디버깅용
 
                 ItemDTO itemDTO = response.body();
                 if(itemDTO.getResultCode().equals("0")) {
@@ -87,6 +87,11 @@ public class ItemController {
                 customPreference.put("item3Cnt",itemDTO.getItem3Cnt());
                 customPreference.put("item4Cnt",itemDTO.getItem4Cnt());
 
+                /*Log.e("login User ID", customPreference.getValue("userId", itemDTO.getUserId()));
+                Log.e("User Item1", customPreference.getValue("item1", ""+itemDTO.getItem1Cnt()));
+                Log.e("User Item1", customPreference.getValue("item2", ""+itemDTO.getItem2Cnt()));
+                Log.e("User Item1", customPreference.getValue("item3", ""+itemDTO.getItem3Cnt()));
+                Log.e("User Item1", customPreference.getValue("item4", ""+itemDTO.getItem4Cnt()));*/
 
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
 
@@ -110,8 +115,8 @@ public class ItemController {
             @Override
             public void onFailure(Call<ItemDTO> call, Throwable t) {
                 isSuccess = false;
-                Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
-                Log.d("로그인_왜실패?",t.toString());
+                Log.d("Item Get_실패코드-",call.toString()+"__"+t.getMessage());
+                Log.d("Item Get_왜실패?",t.toString());
             }
         });
         return isSuccess;
@@ -142,10 +147,10 @@ public class ItemController {
             public void onResponse(Call<ItemDTO> call, Response<ItemDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
-                    Log.d("로그인 코드_",response.body().getResultCode()+"");
+                    Log.d("Item Insert 코드_",response.body().getResultCode()+"");
                     return ; // 아무 코드를 실행하지 않고 리턴.
                 }
-                Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
+                Log.d("Item Insert_성공코드 -", response.code() + ""); // 디버깅용
 
                 ItemDTO itemDTO = response.body();
                 if(itemDTO.getResultCode().equals("0")) {
@@ -182,8 +187,8 @@ public class ItemController {
             @Override
             public void onFailure(Call<ItemDTO> call, Throwable t) {
                 isSuccess = false;
-                Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
-                Log.d("로그인_왜실패?",t.toString());
+                Log.d("Item Insert_실패코드-",call.toString()+"__"+t.getMessage());
+                Log.d("Item Insert_왜실패?",t.toString());
             }
         });
         return isSuccess;
@@ -214,10 +219,10 @@ public class ItemController {
             public void onResponse(Call<ItemDTO> call, Response<ItemDTO> response) {
                 /* 응답코드가 200번대가 아니라면*/
                 if(!response.isSuccess()) {
-                    Log.d("로그인 코드_",response.body().getResultCode()+"");
+                    Log.d("Item Update 코드_",response.body().getResultCode()+"");
                     return ; // 아무 코드를 실행하지 않고 리턴.
                 }
-                Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
+                Log.d("Item Update_성공코드 -", response.code() + ""); // 디버깅용
 
                 ItemDTO itemDTO = response.body();
                 if(itemDTO.getResultCode().equals("0")) {
@@ -252,8 +257,8 @@ public class ItemController {
             @Override
             public void onFailure(Call<ItemDTO> call, Throwable t) {
                 isSuccess = false;
-                Log.d("로그인_실패코드-",call.toString()+"__"+t.getMessage());
-                Log.d("로그인_왜실패?",t.toString());
+                Log.d("Item Update_실패코드-",call.toString()+"__"+t.getMessage());
+                Log.d("Item Update_왜실패?",t.toString());
             }
         });
         return isSuccess;

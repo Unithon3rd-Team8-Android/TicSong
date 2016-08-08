@@ -26,10 +26,10 @@
         </receiver>
 
         <activity android:name=".SplashActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity android:name=".SplashActivity2"
@@ -52,6 +52,16 @@
 
         <activity android:name=".DifficultyActivity"
             android:label="난이도화면"/>
+
+
+        <activity android:name=".ServerTestActivity"
+            android:label="서버 테스트">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
     </application>
 

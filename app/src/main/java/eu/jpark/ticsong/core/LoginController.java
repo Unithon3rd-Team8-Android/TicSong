@@ -77,8 +77,11 @@ public class LoginController {
                 Log.d("로그인_성공코드 -", response.code() + ""); // 디버깅용
 
                 UserDTO userDTO = response.body();
-                if(userDTO.getResultCode().equals("0"))
+                if(userDTO.getResultCode().equals("0")) {
+                    Log.d("로그인_실패 -", "아이디 or 이름 오류"); // 디버깅용
                     return;
+                }
+
                 CustomPreference customPreference = CustomPreference.getInstance(activity);
 
                 customPreference.put("userId",userDTO.getUserId());
@@ -86,7 +89,12 @@ public class LoginController {
                 customPreference.put("platform",userDTO.getPlatform());
                 customPreference.put("login",true);
                 Log.e("login_login","true");
-                new Thread(new Runnable() {
+
+                /*Log.e("login User ID", customPreference.getValue("userId", userDTO.getUserId()));
+                Log.e("login Name", customPreference.getValue("name", userDTO.getName()));
+                Log.e("login Platform", ""+customPreference.getValue("platform", userDTO.getPlatform()));*/
+
+                /*new Thread(new Runnable() {
                     @Override
                     public void run() {
                         activity.runOnUiThread(new Runnable() {
@@ -96,7 +104,7 @@ public class LoginController {
                             }
                         });
                     }
-                }).start();
+                }).start();*/
             }
 
             @Override

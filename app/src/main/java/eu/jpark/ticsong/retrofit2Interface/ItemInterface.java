@@ -52,6 +52,13 @@ public interface ItemInterface {
             @Field("item4Cnt") int item4Cnt
     );
 
+    @FormUrlEncoded
+    @POST("item.do")
+    Call<ItemDTO> retrieveItem(
+            @Field("service") String service,
+            @Field("userId") String userId
+    );
+
 
 
 
