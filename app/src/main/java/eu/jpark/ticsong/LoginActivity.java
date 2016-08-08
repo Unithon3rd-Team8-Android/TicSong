@@ -13,6 +13,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import eu.jpark.ticsong.core.LoginController;
+import eu.jpark.ticsong.core.RegisterController;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "LoginActivity";
@@ -50,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (!mGoogleApiClient.isConnected() || Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) == null) {
 
             Log.d(TAG, "onConnected 연결 실패");
+            login("123123", "Daesub");
+            register("44444444", "Test Account 01");
 
         } else {
             Log.d(TAG, "onConnected 연결 성공");
@@ -68,7 +73,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             if (currentPerson.hasDisplayName()) {
                 Log.d(TAG,"디스플레이 이름 : "+ currentPerson.getDisplayName());
                 Log.d(TAG, "디스플레이 아이디는 : " + currentPerson.getId());
+
+
+                // 여기서 서버 연결.
+                /* 서버로 부터 JSON 객체를 받아 SQLite 에 저장. */
+                //putJsonData();
+
+
+                //login(currentPerson.getDisplayName(), currentPerson.getId());
+                register(currentPerson.getId(), currentPerson.getDisplayName());
+
+
             }
+            login("123123", "Daesub");
 
             startActivity(new Intent(getApplication(), MainActivity.class)); // 로딩이 끝난후 이동할 Activity
             LoginActivity.this.finish(); // 로딩페이지 Activity Stack에서 제거
@@ -84,6 +101,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.d(TAG, "연결 에러 " + connectionResult);
+
+        login("123123", "Daesub");
+        register("333333", "Test Account 01");
+
 
         if (connectionResult.hasResolution()) {
 
@@ -102,4 +123,28 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(getApplicationContext(), "이미 로그인 중", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void putJsonData() {
+/*
+        LoginController loginController = LoginController.getInstance();
+        loginController.requestLogin(this, inputId.getText().toString(), inputPwd.getText().toString());*/
+
+    }
+
+    private void login(String userId, String name) {
+        LoginController loginController = LoginController.getInstance();
+        //loginController.requestLogin(this, userId, name);
+        loginController.requestLogin(this, "123123", "Daesub");
+    }
+
+    private void register(String userId, String name) {
+
+        Log.e("Name !!!!!! ", name);
+
+        RegisterController registerController = RegisterController.getInstance();
+        registerController.register(this, userId, name);
+    }
+
+
 }

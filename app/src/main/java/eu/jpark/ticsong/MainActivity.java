@@ -1,5 +1,6 @@
 package eu.jpark.ticsong;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.*;
 import java.sql.Date;
@@ -20,7 +22,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
+        ImageButton btn_start = (ImageButton) findViewById(R.id.btn_start);
+
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplication(), GenreActivity.class));
+            }
+        });
+
+
+
+        /*final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
 
         // 테이블에 있는 모든 데이터 출력
         final TextView result = (TextView) findViewById(R.id.result);
@@ -83,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 result.setText(dbHelper.getResult());
             }
-        });
+        });*/
+
     }
 }

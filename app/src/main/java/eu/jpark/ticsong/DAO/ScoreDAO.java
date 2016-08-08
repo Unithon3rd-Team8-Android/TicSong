@@ -1,3 +1,4 @@
+/*
 package eu.jpark.ticsong.DAO;
 
 import java.sql.Connection;
@@ -160,3 +161,4 @@ public class ScoreDAO {
         }
         return scoreDTO;
     }
+*/
