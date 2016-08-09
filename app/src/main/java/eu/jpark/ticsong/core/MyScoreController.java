@@ -86,8 +86,8 @@ public class MyScoreController {
 
                 /*Log.e("login User ID", customPreference.getValue("userId", myScoreDTO.getUserId()));
                 Log.e("User exp", customPreference.getValue("Exp", ""+myScoreDTO.getExp()));
-                Log.e("User userLevel", customPreference.getValue("UserLevel", ""+myScoreDTO.getUserLevel()));*/
-
+                Log.e("User userLevel", customPreference.getValue("UserLevel", ""+myScoreDTO.getUserLevel()));
+*/
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
 
                 customPreference.put("userId",userDTO.getUserId());

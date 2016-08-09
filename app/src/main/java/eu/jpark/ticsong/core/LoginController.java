@@ -92,8 +92,8 @@ public class LoginController {
 
                 /*Log.e("login User ID", customPreference.getValue("userId", userDTO.getUserId()));
                 Log.e("login Name", customPreference.getValue("name", userDTO.getName()));
-                Log.e("login Platform", ""+customPreference.getValue("platform", userDTO.getPlatform()));*/
-
+                Log.e("login Platform", ""+customPreference.getValue("platform", userDTO.getPlatform()));
+*/
                 /*new Thread(new Runnable() {
                     @Override
                     public void run() {

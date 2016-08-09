@@ -91,8 +91,8 @@ public class ItemController {
                 Log.e("User Item1", customPreference.getValue("item1", ""+itemDTO.getItem1Cnt()));
                 Log.e("User Item1", customPreference.getValue("item2", ""+itemDTO.getItem2Cnt()));
                 Log.e("User Item1", customPreference.getValue("item3", ""+itemDTO.getItem3Cnt()));
-                Log.e("User Item1", customPreference.getValue("item4", ""+itemDTO.getItem4Cnt()));*/
-
+                Log.e("User Item1", customPreference.getValue("item4", ""+itemDTO.getItem4Cnt()));
+*/
                 /*CustomPreference customPreference = CustomPreference.getInstance(activity);
 
                 customPreference.put("userId",userDTO.getUserId());
